@@ -27,7 +27,7 @@ setuptools.setup(
     author="Shay Palachy",
     author_email="shay.palachy@gmail.com",
     name='shed',
-    description='Simple Python-based local/remote model store.',
+    description='Simple local/remote machine learning model store for Python.',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     long_description=README,
