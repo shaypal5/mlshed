@@ -1,4 +1,4 @@
-from .dataset import Dataset  # noqa: F401
+from .model import Model  # noqa: F401
 
 from ._version import get_versions
 __version__ = get_versions()['version']

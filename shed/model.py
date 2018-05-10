@@ -123,7 +123,7 @@ class Model(object):
             **self.kwargs,
         )
 
-    def add_local(self, source_fpath, version=None, tags=None, ext=None):
+    def add_local(self, source_fpath, version=None, tags=None):
         """Copies a given file into local store as an instance of this model.
 
         Parameters
@@ -138,8 +138,36 @@ class Model(object):
             The file extension to use. If not given, the default extension is
             used.
         """
+        ext = os.path.splitext(source_fpath)[1]
+        ext = ext[1:]  # we dont need the dot
         fpath = self.fpath(version=version, tags=tags, ext=ext)
         shutil.copyfile(src=source_fpath, dst=fpath)
+
+    # to add normal extension discovery on azure:
+    # https://azure-storage.readthedocs.io/ref/
+    # azure.storage.blob.baseblobservice.html
+    # look at list_blobs
+
+    # def _fname_patten(self, version=None, tags=None):
+    #     return '{}{}{}{}'.format(
+    #         self.fname_base,
+    #         self._tags_to_str(tags),
+    #         self._version_to_str(version),
+    #         self.EXT_PATTERN,
+    #     )
+    #
+    # def _find_extension(self, version=None, tags=None):
+    #     fpattern = self._fname_patten(version=version, tags=tags)
+    #     if self.singleton:
+    #         data_dir = model_dirpath(task=self.task, **self.kwargs)
+    #     else:
+    #         data_dir = model_dirpath(
+    #             model_name=self.name, task=self.task, **self.kwargs)
+    #     for fname in os.listdir(data_dir):
+    #         match = re.match(fpattern, fname)
+    #         if match:
+    #             return match.group(1)
+    #     return None
 
     def upload(self, version=None, tags=None, ext=None, source_fpath=None,
                **kwargs):
@@ -165,7 +193,7 @@ class Model(object):
         if source_fpath:
             self.add_local(
                 source_fpath=source_fpath, version=version, tags=tags, ext=ext)
-        fpath = self.fpath(tags=tags, ext=ext)
+        fpath = self.fpath(version=version, tags=tags, ext=ext)
         if not os.path.isfile(fpath):
             attribs = "{}{}ext={}".format(
                 "version={} and ".format(version) if version else "",
@@ -173,7 +201,8 @@ class Model(object):
                 ext,
             )
             raise MissingLocalModelError(
-                "No model with {} in local store!".format(attribs))
+                "No model with {} in local store! (path={})".format(
+                    attribs, fpath))
         upload_model(
             model_name=self.name,
             file_path=fpath,
@@ -183,7 +212,7 @@ class Model(object):
         )
 
     def download(self, overwrite=False, version=None, tags=None, ext=None,
-                 **kwargs):
+                 verbose=False, **kwargs):
         """Downloads the given instance of this model from model store.
 
         Parameters
@@ -200,12 +229,19 @@ class Model(object):
         ext : str, optional
             The file extension to use. If not given, the default extension is
             used.
+        verbose : bool, default False
+            If set to True, informative messages are printed.
         **kwargs : extra keyword arguments
             Extra keyword arguments are forwarded to
             azure.storage.blob.BlockBlobService.get_blob_to_path.
         """
         fpath = self.fpath(version=version, tags=tags, ext=ext)
         if os.path.isfile(fpath) and not overwrite:
+            if verbose:
+                print(
+                    "File exists and overwrite set to False, so not "
+                    "downloading {} with version={} and tags={}".format(
+                        self.name, version, tags))
             return
         download_model(
             model_name=self.name,
@@ -214,27 +250,6 @@ class Model(object):
             model_attributes=self.kwargs,
             **kwargs,
         )
-    #
-    # def _fname_patten(self, version=None, tags=None):
-    #     return '{}{}{}{}'.format(
-    #         self.fname_base,
-    #         self._tags_to_str(tags),
-    #         self._version_to_str(version),
-    #         self.EXT_PATTERN,
-    #     )
-    #
-    # def _find_extension(self, version=None, tags=None):
-    #     fpattern = self._fname_patten(version=version, tags=tags)
-    #     if self.singleton:
-    #         data_dir = model_dirpath(task=self.task, **self.kwargs)
-    #     else:
-    #         data_dir = model_dirpath(
-    #             model_name=self.name, task=self.task, **self.kwargs)
-    #     for fname in os.listdir(data_dir):
-    #         match = re.match(fpattern, fname)
-    #         if match:
-    #             return match.group(1)
-    #     return None
     #
     # def load(self, tags=None, ext=None, **kwargs):
     #     """Loads an instance of this model into a python object.
