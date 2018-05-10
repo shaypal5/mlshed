@@ -5,7 +5,7 @@ import os
 from birch import Birch
 
 
-SHED_CFG = Birch('shed')
+SHED_CFG = Birch('mlshed')
 
 
 def _base_dir():
@@ -33,10 +33,10 @@ def resource_dirpath(task=None, **kwargs):
         Extra keyword arguments, representing additional attributes of the
         resources, are used to generate additional sub-folders on the path.
         For example, providing 'lang=en' will results in a path such as
-        '/shed_base_dir/regression/lang_en/logreg.pickle'. Hierarchy always
+        '/mlshed_base_dir/regression/lang_en/logreg.pickle'. Hierarchy always
         matches lexicographical order of keyword argument names, so 'lang=en'
         and 'animal=dog' will result in a path such as
-        'shed_base_dir/task_name/animal_dog/lang_en/svm.pickle'.
+        'mlshed_base_dir/task_name/animal_dog/lang_en/svm.pickle'.
 
     Returns
     -------
@@ -70,10 +70,10 @@ def model_dirpath(model_name=None, task=None, **kwargs):
         Extra keyword arguments, representing additional attributes of the
         resources, are used to generate additional sub-folders on the path.
         For example, providing 'lang=en' will results in a path such as
-        '/shed_base_dir/regression/lang_en/logreg.pickle'. Hierarchy always
+        '/mlshed_base_dir/regression/lang_en/logreg.pickle'. Hierarchy always
         matches lexicographical order of keyword argument names, so 'lang=en'
         and 'animal=dog' will result in a path such as
-        'shed_base_dir/task_name/animal_dog/lang_en/svm.pickle'.
+        'mlshed_base_dir/task_name/animal_dog/lang_en/svm.pickle'.
 
     Returns
     -------
@@ -107,10 +107,10 @@ def model_filepath(filename, model_name=None, task=None, **kwargs):
         Extra keyword arguments, representing additional attributes of the
         resources, are used to generate additional sub-folders on the path.
         For example, providing 'lang=en' will results in a path such as
-        '/shed_base_dir/regression/lang_en/logreg.pickle'. Hierarchy always
+        '/mlshed_base_dir/regression/lang_en/logreg.pickle'. Hierarchy always
         matches lexicographical order of keyword argument names, so 'lang=en'
         and 'animal=dog' will result in a path such as
-        'shed_base_dir/task_name/animal_dog/lang_en/svm.pickle'.
+        'mlshed_base_dir/task_name/animal_dog/lang_en/svm.pickle'.
 
     Returns
     -------

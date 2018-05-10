@@ -1,4 +1,4 @@
-"""Setup for the shed package."""
+"""Setup for the mlshed package."""
 
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -26,12 +26,12 @@ with open('README.rst') as f:
 setuptools.setup(
     author="Shay Palachy",
     author_email="shay.palachy@gmail.com",
-    name='shed',
+    name='mlshed',
     description='Simple local/remote machine learning model store for Python.',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     long_description=README,
-    url='https://github.com/shaypal5/shed',
+    url='https://github.com/shaypal5/mlshed',
     packages=setuptools.find_packages(),
     include_package_data=True,
     python_requires=">=3.5",

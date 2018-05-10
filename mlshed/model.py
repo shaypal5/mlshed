@@ -19,7 +19,7 @@ from .azure import (
 
 
 class Model(object):
-    """A shed model.
+    """An mlshed model.
 
     Parameters
     ----------

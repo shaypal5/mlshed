@@ -1,4 +1,4 @@
-"""Custom exceptions for shed."""
+"""Custom exceptions for mlshed."""
 
 
 class MissingLocalModelError(Exception):
