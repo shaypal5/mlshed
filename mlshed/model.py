@@ -134,9 +134,6 @@ class Model(object):
             The version of the instance of this model.
         tags : list of str, optional
             The tags associated with the given instance of this model.
-        ext : str, optional
-            The file extension to use. If not given, the default extension is
-            used.
         """
         ext = os.path.splitext(source_fpath)[1]
         ext = ext[1:]  # we dont need the dot
