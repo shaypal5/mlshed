@@ -134,11 +134,17 @@ class Model(object):
             The version of the instance of this model.
         tags : list of str, optional
             The tags associated with the given instance of this model.
+
+        Returns
+        -------
+        ext : str
+            The extension of the added file.
         """
         ext = os.path.splitext(source_fpath)[1]
         ext = ext[1:]  # we dont need the dot
         fpath = self.fpath(version=version, tags=tags, ext=ext)
         shutil.copyfile(src=source_fpath, dst=fpath)
+        return ext
 
     # to add normal extension discovery on azure:
     # https://azure-storage.readthedocs.io/ref/
@@ -188,8 +194,8 @@ class Model(object):
             azure.storage.blob.BlockBlobService.create_blob_from_path.
         """
         if source_fpath:
-            self.add_local(
-                source_fpath=source_fpath, version=version, tags=tags, ext=ext)
+            ext = self.add_local(
+                source_fpath=source_fpath, version=version, tags=tags)
         fpath = self.fpath(version=version, tags=tags, ext=ext)
         if not os.path.isfile(fpath):
             attribs = "{}{}ext={}".format(

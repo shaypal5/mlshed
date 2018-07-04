@@ -8,7 +8,7 @@ import versioneer
 
 
 INSTALL_REQUIRES = [
-    'birch==0.0.10', 'azure-storage-blob==1.1.0', 'decore==0.0.1',
+    'birch>=0.0.10', 'azure-storage-blob==1.1.0', 'decore==0.0.1',
 ]
 
 TEST_REQUIRES = [
