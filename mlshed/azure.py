@@ -71,6 +71,11 @@ def upload_model(
     **kwargs : extra keyword arguments
         Extra keyword arguments are forwarded to
         azure.storage.blob.BlockBlobService.create_blob_from_path.
+
+    Returns
+    -------
+    blob_name : str
+        The name of the blob the model was uploaded to.
     """
     fname = ntpath.basename(file_path)
     blob_name = _blob_name(
@@ -79,13 +84,13 @@ def upload_model(
         task=task,
         model_attributes=model_attributes,
     )
-    print(blob_name)
     _blob_service().create_blob_from_path(
         container_name=SHED_CFG['azure']['container_name'],
         blob_name=blob_name,
         file_path=file_path,
         **kwargs,
     )
+    return blob_name
 
 
 # def extension_by_file_prefix(
